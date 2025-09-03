@@ -1,108 +1,133 @@
-# gow-zorin - Zorin OS for Gaming
+# gow-zorin: Zorin OS for Gaming - A Complete Guide
 
-This project aims to create a pre-configured Zorin OS environment optimized for gaming. It has great potential and extensibility.
+This guide provides a complete description of using gow-zorin, a pre-configured Zorin OS environment optimized for gaming. It covers project description, configuration details, deployment instructions, and troubleshooting tips.
 
 ## Contents
 
 *   [Introduction](#introduction)
-*   [Features](#features)
-*   [Installation](#installation)
+*   [Description](#description)
 *   [Configuration](#configuration)
-*   [Scripts](#scripts)
-*   [Pros](#pros)
-*   [Cons](#cons)
 *   [Troubleshooting](#troubleshooting)
-*   [Known Issues](#known issues)
 
 ## Introduction
 
-gow-zorin provides a ready-to-use Zorin OS environment. This is a great option for those who want a customized gaming environment without going through the complex setup process. It's designed to emulate a desktop environment and provide users with a familiar Windows-like interface.
+gow-zorin aims to provide a ready-to-use Zorin OS environment, eliminating the complexities of manual gaming setup. This configuration utilizes Docker containerization for portability and ease of management. This guide assumes a basic understanding of Docker concepts.
 
-## Features
+## Description
 
-*   **Zorin OS Desktop:** Provides a fully functional Zorin OS environment.
-*   **Gaming Support:** Includes Steam, Heroic Game Launcher, and Mango HUD pre-installed.
-*   **Flatpak Integration:**  Provides a secure application model and seamless integration with Gnome Software.
-*   **Optimized Configuration:** Keyboard functionality, smooth performance, and pre-configured settings.
+gow-zorin provides a fully functional Zorin OS environment with pre-installed tools and optimized settings for a seamless gaming experience. It offers a familiar Windows-like interface while leveraging the power and flexibility of Zorin OS. Key features include:
 
-## Installation
-
-The installation process depends on your chosen containerization method. Refer to the project’s documentation (link to documentation here) for specific instructions. Generally, it involves deploying the image or script into your container environment.
+*   **Pre-configured Environment:** Eliminates manual setup for gaming.
+*   **Gaming Support:** Includes Steam, Heroic Game Launcher, and Mango HUD, pre-installed.
+*   **Optimized Performance:** Settings are geared towards smooth gameplay and responsiveness.
+*   **Customizability:** Provides options for custom scripts and configuration adjustments.
 
 ## Configuration
 
-After deployment, most settings are saved automatically. However, if you need to change them:
+This section contains information about the configuration required to deploy the gow-zorin environment. The main configuration is presented in `config.toml` format below. **Carefully review each setting to ensure compatibility with your system and desired configuration.**
 
-*   **Important:** To modify settings, delete the file `.config/dconf/user.bak` in the user’s home directory. This will clear the saved configurations, allowing you to start fresh.
+```toml
+[[apps]]
+icon_png_path = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.-GsZ83B2UfwcfGYxPs7xKwHaHa%3Fpid%3DApi&f=1&ipt=f5462269e1ce601ba074dd3cfd09c2bb6606850c4f262fe46db1988fe993ed9e'
+start_virtual_compositor = true
+title = 'Zorin'
+    [apps.runner]
+    base_create_json = '''{
+  "HostConfig": {
+    "IpcMode": "host",
+    "CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
+    "SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
+    "Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
+    "Privileged": true,
+    "DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
+  }
+}
+'''
+    devices = []
+    env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
+    image = 'gailoks/gow-zorin:latest'
+    mounts = [ ]
+    name = 'WolfZorin'
+    ports = []
+    type = 'docker'
+```
+## Pros 
 
-## Scripts
+*    **Ease of Use**: The pre-configured environment saves considerable time on setup.
+*    **Gaming Readiness**: All necessary gaming tools are already installed.
+*    **Optimized** Performance: Configurations are geared towards smooth gameplay and responsiveness.
+*    **Customizability**: Ability to run custom scripts.
+     
 
-You can run your own scripts by placing them in the `/custom-script` file. Make sure the script has execute permissions (`chmod +x /custom-script`). Any errors during script execution will be logged.
+## Cons 
 
-## Pros
+*    **Slow Startup**: Any launch will take longer than launching a lighter DE.
+*    **Resource Intensity**: Zorin OS, although lightweight in its own right, requires reasonable system resources.
+     
 
-*   **Ease of Use:** The pre-configured environment saves significant setup time.
-*   **Gaming Ready:** All necessary gaming tools are already installed.
-*   **Optimized Performance:** Configurations are aimed at smooth gameplay and responsiveness.
-*   **Customizability:** Ability to run custom scripts.
+## Troubleshooting 
 
-## Cons
-
-*   **Slow Startup:** Any startup will take longer than a startup of lighter DEs.
-*   **Resource Intensity:** Zorin OS, although lightweight in its own right, requires reasonable system resources.
-*   **Configuration Reset:** Deleting `.config/dconf/user.bak` will delete all saved configurations.
-
-## Troubleshooting
-
-*   **Application Compatibility:** Some applications may require additional configuration or troubleshooting.
-*   **Errors in Logs:** Check the `/logs` directory for log files (`dbus.log`, `xdg.log`, `flatpak.log`) to identify errors.
-*   **Errors in Custom Scripts:** Check the `/logs` directory for errors when running your custom script.
-*   **Proton Compatibility:** Versions 9 or below of Proton are required for correct operation.
-
+*    **Application Compatibility**: Some applications may require additional configuration or troubleshooting.
+*    **Log Errors**: Check the /logs directory for log files (dbus.log, xdg.log, flatpak.log) to identify errors.
+*    **Custom Script** Errors: Check the /logs directory for errors when running a custom script.
+*    **Proton Compatibility**: Requires Proton versions 9 or below for proper functionality.
+*    **Configuration Reset**: Deleting .config/dconf/user.bak will allow you to save new desktop settings (theme, wallpaper, etc.).
+     
 ---
 
-## Перевод на Русский (Russian Translation)
+# gow-zorin: Zorin OS для Гейминга - Полное Руководство
 
-# gow-zorin - Zorin OS для игр
-
-Этот проект направлен на создание предварительно настроенной среды Zorin OS, оптимизированной для игр. Имеет большой потенциал и расширяемость. 
+Это руководство предоставляет полное описание использования gow-zorin, предустановленной среды Zorin OS, оптимизированной для игр. Оно охватывает описание проекта, сведения о конфигурации, инструкции по развертыванию и советы по устранению неполадок.
 
 ## Содержание
 
 *   [Введение](#введение)
-*   [Особенности](#особенности)
-*   [Установка](#установка)
+*   [Описание](#описание)
 *   [Конфигурация](#конфигурация)
-*   [Скрипты](#скрипты)
-*   [Плюсы](#плюсы)
-*   [Минусы](#минусы)
 *   [Устранение неполадок](#устранение-неполадок)
-*   [Известные проблемы](#известные-проблемы)
 
 ## Введение
 
-gow-zorin предоставляет готовую среду Zorin OS. Это отличный вариант для тех, кто хочет настроенную среду для игр не проходя через сложный процесс настройки.  Предназначена для имитации рабочего стола и предоставления знакомого пользователям интерфейса windows.
+gow-zorin стремится предоставить готовую к использованию среду Zorin OS, устраняя сложности ручной настройки для игр.  Эта настройка использует контейнеризацию Docker для переносимости и простоты управления.  Настоящее руководство предполагает базовое понимание концепций Docker.
 
-## Особенности
+## Описание
 
-*   **Рабочий стол Zorin OS:** Предоставляет полностью функциональную среду Zorin OS.
+gow-zorin предоставляет полностью функциональную среду Zorin OS с предустановленными инструментами и оптимизированными настройками для бесперебойного игрового опыта. Она обеспечивает привычный интерфейс Windows, используя при этом мощность и гибкость Zorin OS. Ключевые особенности включают:
+
+*   **Предустановленная среда:** Устраняет ручную настройку для игр.
 *   **Поддержка игр:** Включает Steam, Heroic Game Launcher и Mango HUD, предустановленные.
-*   **Интеграция Flatpak:**  Обеспечивается безопасной моделью приложения Flatpak и бесшовной интеграцией Gnome Software.
-*   **Оптимизированная конфигурация:**  Функциональность клавиатуры, плавная производительность и предварительно настроенные параметры.
-
-## Установка
-
-Процесс установки зависит от выбранного вами метода контейнеризации. Обратитесь к документации проекта (ссылка на документацию здесь) для получения конкретных инструкций. В целом, это включает в себя развертывание образа или скрипта в вашей контейнерной среде.
+*   **Оптимизированная производительность:** Настройки направлены на плавный игровой процесс и отзывчивость.
+*   **Настраиваемость:** Предоставляет варианты для пользовательских скриптов и корректировок конфигурации.
 
 ## Конфигурация
 
-После развертывания большинство настроек сохраняются автоматически. Однако, если вам необходимо их изменить:
+Этот раздел содержит сведения о конфигурации, необходимой для развертывания среды gow-zorin. Основная конфигурация представлена в формате `config.toml` ниже. **Внимательно изучите каждую настройку, чтобы убедиться в совместимости с вашей системой и желаемой настройкой.**
 
-*   **Важно:** Чтобы изменить настройки, удалите файл `.config/dconf/user.bak` в домашней директории пользователя. Это очистит сохраненные конфигурации, что позволит вам начать с нуля.
-
-## Скрипты
-
-Вы можете выполнять собственные скрипты, помещая их в файл `/custom-script`. Убедитесь, что у скрипта есть права на исполнение (`chmod +x /custom-script`). Любые ошибки во время выполнения скрипта будут зафиксированы.
+```toml
+[[apps]]
+icon_png_path = 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.-GsZ83B2UfwcfGYxPs7xKwHaHa%3Fpid%3DApi&f=1&ipt=f5462269e1ce601ba074dd3cfd09c2bb6606850c4f262fe46db1988fe993ed9e'
+start_virtual_compositor = true
+title = 'Zorin'
+    [apps.runner]
+    base_create_json = '''{
+  "HostConfig": {
+    "IpcMode": "host",
+    "CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
+    "SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
+    "Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
+    "Privileged": true,
+    "DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
+  }
+}
+'''
+    devices = []
+    env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
+    image = 'gailoks/gow-zorin:latest'
+    mounts = [ ]
+    name = 'WolfZorin'
+    ports = []
+    type = 'docker'
+```
 
 ## Плюсы
 
@@ -115,7 +140,6 @@ gow-zorin предоставляет готовую среду Zorin OS. Это 
 
 *   **Медленный запуск:** Любой запуск будет занимать больше времени чем запуск более легких DE
 *   **Интенсивность ресурсов:** Zorin OS, хотя и легкая в своем роде, требует разумных системных ресурсов.
-*   **Сброс конфигурации:** Удаление `.config/dconf/user.bak` удалит все сохраненные конфигурации.
 
 ## Устранение неполадок
 
@@ -123,3 +147,5 @@ gow-zorin предоставляет готовую среду Zorin OS. Это 
 *   **Ошибки в журналах:** Проверьте каталог `/logs` на наличие файлов журналов (`dbus.log`, `xdg.log`, `flatpak.log`) для выявления ошибок.
 *   **Ошибки пользовательских скриптов:** Проверьте каталог `/logs` на наличие ошибок при выполнении пользовательского скрипта.
 *   **Совместимость Proton:** Для корректной работы требуются версии Proton 9 или ниже.
+*   **Сброс конфигурации:** Удаление `.config/dconf/user.bak` позволит сохранить новые настройки рабочего стола(тему, обои и тд).
+
