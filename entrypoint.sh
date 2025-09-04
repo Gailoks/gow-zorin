@@ -1,9 +1,9 @@
 #!/bin/bash -e
 
-groupadd -f -g "$PGID" ${UNAME}
-groupadd -f -g 44 video
-groupadd -f -g 104 render
-useradd -m -u "$PUID" -g "$PGID" -G video,render -s /bin/bash "$UNAME"
+/setup-user.sh 
+/setup-devices.sh
+/setup-nvidia.sh 
+
 mkdir -p /tmp/sockets/
 chown $UNAME:$UNAME -R /tmp/sockets/
 chmod 0700 -R /tmp/sockets/

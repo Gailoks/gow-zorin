@@ -145,5 +145,8 @@ _INSTALL_PACKAGES
 WORKDIR /
 
 COPY entrypoint.sh .
+COPY --chmod=700 setup-user.sh .
+COPY --chmod=700 setup-devices.sh .
+COPY --chmod=700 setup-nvidia.sh .
 
 ENTRYPOINT ["/entrypoint.sh"]
