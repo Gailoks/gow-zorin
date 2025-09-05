@@ -7,6 +7,7 @@ This guide provides a complete description of using gow-zorin, a pre-configured 
 *   [Introduction](#introduction)
 *   [Description](#description)
 *   [Configuration](#configuration)
+*   [Build](#build)
 *   [Troubleshooting](#troubleshooting)
 
 ## Introduction
@@ -51,6 +52,15 @@ title = 'Zorin'
     ports = []
     type = 'docker'
 ```
+
+## Build
+
+To build the Docker image, use the following command:  
+
+```
+docker build -t gailoks/gow-zorin:latest .
+```
+
 ## Pros 
 
 *    **Ease of Use**: The pre-configured environment saves considerable time on setup.
@@ -84,6 +94,7 @@ title = 'Zorin'
 *   [Введение](#введение)
 *   [Описание](#описание)
 *   [Конфигурация](#конфигурация)
+*   [Сборка](#сборка)
 *   [Устранение неполадок](#устранение-неполадок)
 
 ## Введение
@@ -127,6 +138,14 @@ title = 'Zorin'
     name = 'WolfZorin'
     ports = []
     type = 'docker'
+```
+
+## Сборка 
+
+Чтобы собрать образ используйте следующую команду:
+
+```
+docker build -t gailoks/gow-zorin:latest .
 ```
 
 ## Плюсы

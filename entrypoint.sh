@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
-/setup-user.sh 
+/setup-user.sh
 /setup-devices.sh
-/setup-nvidia.sh 
+/setup-nvidia.sh
+/setup-config.sh
 
 mkdir -p /tmp/sockets/
 chown $UNAME:$UNAME -R /tmp/sockets/
@@ -62,7 +63,7 @@ exec gosu "${UNAME}" bash -c '
     echo ">> Nothing to do."
   fi
 
-  echo ">> Start mangohud"
+  echo ">> Setup mangohud"
   export MANGOHUD=${MANGOHUD:-1}
 
   gsettings set org.gnome.desktop.interface scaling-factor 1
@@ -72,9 +73,8 @@ exec gosu "${UNAME}" bash -c '
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
   #echo "xwayland disable" >> $HOME/.config/sway/config
-  echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT} position 0,0" >> $HOME/.config/sway/config
-  echo "workspace main;" >> $HOME/.config/sway/config
-  echo "exec Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
+  echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
+  echo "exec  Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)
 
   echo ">> Setting up flatpak"

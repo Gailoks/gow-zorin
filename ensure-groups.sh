@@ -2,6 +2,7 @@
 
 set -e
 
+join_by() { local IFS="$1"; shift; echo "$*"; }
 
 declare -A group_map
 

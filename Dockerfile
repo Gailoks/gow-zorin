@@ -14,6 +14,23 @@ RUN apt-get update -y && \
 
 ######################################
 
+FROM ubuntu:22.04 AS loader
+ENV DEBIAN_FRONTEND=non-interactive
+RUN <<_INSTALL_PACKAGES
+#!/bin/bash -e
+
+apt-get update -y 
+apt-get install -y --no-install-recommends wget ca-certificates
+
+mkdir -p /packages
+wget -O /packages/gosu https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64
+wget -O /packages/MangoHud.tar.gz https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
+wget -O /packages/heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.18.1/Heroic-2.18.1-linux-amd64.deb
+wget -O /packages/lsfg-vk.zip https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0-x86_64.zip # Optinal if you like frame gen and have lossless scaling availible
+
+_INSTALL_PACKAGES
+
+######################################
 FROM ubuntu:22.04
 
 ENV \
@@ -30,7 +47,7 @@ ENV \
     LC_ALL=ru_RU.UTF-8 \
     XDG_RUNTIME_DIR=/tmp/.X11-unix
 
-COPY packages .
+COPY --from=loader /packages .
 COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
 
 RUN <<_INSTALL_PACKAGES
@@ -79,7 +96,6 @@ apt install -y --no-install-recommends \
     libsdl2-2.0-0:i386 \
     libdbus-1-3:i386 \
     libsqlite3-0:i386 \
-    winetricks \
     zenity \
     libnotify4 \
     xdg-utils \
@@ -109,6 +125,12 @@ apt install -y --no-install-recommends \
 
 
 echo exit 0 > /usr/sbin/policy-rc.d
+
+#Get lsfg-vk
+#wget -O lsfg-vk.deb https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0.x86_64.deb
+unzip lsfg-vk.zip -d /usr/local
+chmod +x /usr/local/bin/lsfg-vk-ui
+rm lsfg-vk.zip
 
 # Get heroic game launcher
 #wget -O heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.18.1/Heroic-2.18.1-linux-amd64.deb
@@ -145,8 +167,10 @@ _INSTALL_PACKAGES
 WORKDIR /
 
 COPY entrypoint.sh .
+COPY --chmod=700 ensure-groups.sh .
 COPY --chmod=700 setup-user.sh .
 COPY --chmod=700 setup-devices.sh .
 COPY --chmod=700 setup-nvidia.sh .
+COPY --chmod=700 setup-config.sh .
 
 ENTRYPOINT ["/entrypoint.sh"]
