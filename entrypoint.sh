@@ -20,10 +20,17 @@ chmod 777 -R /logs
 echo ">> Starting dbus"
 service dbus start &> /logs/dbus.log
 
-if [ -f /custom-script ]; then
-    echo ">> Running custom script: /custom-script"
-    chmod +x /custom-script
-    /custom-script || echo "Custom script exited with error $?"
+if [ -d /custom-scripts ]; then
+    echo ">> Running custom scripts in: /custom-scripts"
+    
+    # Проходим по всем файлам в папке /custom-scripts
+    for script in /custom-scripts/*; do
+        if [ -f "$script" ]; then
+            echo ">> Running script: $script"
+            chmod +x "$script"
+            "$script" || echo "Script $script exited with error $?"
+        fi
+    done
 fi
 
 exec gosu "${UNAME}" bash -c '
