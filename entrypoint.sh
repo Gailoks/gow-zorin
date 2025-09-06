@@ -14,10 +14,13 @@ mkdir -p -m 777 /var/run/dbus
 mkdir -p -m 1777 /tmp/.X11-unix
 chown root:root /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
+
 echo ">> Create Prfixes directory"
+mkdir -p $HOME/Games/Heroic
 mkdir -p $HOME/Prefixes
 chown $UNAME:$UNAME $HOME/Prefixes
-ln -s $HOME/Prefixes $HOME/Games/Heroic
+[ ! -f $HOME/Games/Heroic/Prefixes ] && ln -s $HOME/Prefixes $HOME/Games/Heroic
+
 echo ">> Creating log directory /logs"
 mkdir -p /logs
 chmod 777 -R /logs
