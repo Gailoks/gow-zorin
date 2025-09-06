@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+echo ">> Creating log directory /logs"
+mkdir -p /logs
+chmod 777 -R /logs
+
 /setup-user.sh
 /setup-devices.sh
 /setup-nvidia.sh
@@ -19,18 +23,14 @@ echo ">> Create Prfixes directory"
 mkdir -p $HOME/Games/Heroic
 mkdir -p $HOME/Prefixes
 chown $UNAME:$UNAME $HOME/Prefixes
-[ ! -f $HOME/Games/Heroic/Prefixes ] && ln -s $HOME/Prefixes $HOME/Games/Heroic
+[ ! -L $HOME/Games/Heroic/Prefixes ] && ln -s $HOME/Prefixes $HOME/Games/Heroic/
 
-echo ">> Creating log directory /logs"
-mkdir -p /logs
-chmod 777 -R /logs
 echo ">> Starting dbus"
 service dbus start &> /logs/dbus.log
 
 if [ -d /custom-scripts ]; then
     echo ">> Running custom scripts in: /custom-scripts"
-    
-    # Проходим по всем файлам в папке /custom-scripts
+
     for script in /custom-scripts/*; do
         if [ -f "$script" ]; then
             echo ">> Running script: $script"
@@ -86,7 +86,6 @@ exec gosu "${UNAME}" bash -c '
   export DISPLAY=:10
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
-  #echo "xwayland disable" >> $HOME/.config/sway/config
   echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
   echo "exec  Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)

@@ -17,8 +17,8 @@ if [[ "${UNAME}" != "root" ]]; then
         userdel -r "${oldname}"
     fi
 
-    groupadd -f -g "${PGID}" ${UNAME}
-    useradd -m -d ${HOME} -u "${PUID}" -g "${PGID}" -s /bin/bash ${UNAME}
+    groupadd -f -g "${PGID}" ${UNAME} &> /logs/groupadd.log
+    useradd -m -d ${HOME} -u "${PUID}" -g "${PGID}" -s /bin/bash ${UNAME} &> /logs/useradd.log
 
     umask "${UMASK}"
 
