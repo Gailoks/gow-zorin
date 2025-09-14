@@ -1,8 +1,13 @@
 #!/bin/bash -e
 
-/setup-user.sh 
+echo ">> Creating log directory /logs"
+mkdir -p /logs
+chmod 777 -R /logs
+
+/setup-user.sh
 /setup-devices.sh
-/setup-nvidia.sh 
+/setup-nvidia.sh
+/setup-config.sh
 
 mkdir -p /tmp/sockets/
 chown $UNAME:$UNAME -R /tmp/sockets/
@@ -13,16 +18,26 @@ mkdir -p -m 777 /var/run/dbus
 mkdir -p -m 1777 /tmp/.X11-unix
 chown root:root /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
-echo ">> Creating log directory /logs"
-mkdir -p /logs
-chmod 777 -R /logs
+
+echo ">> Create Prfixes directory"
+mkdir -p $HOME/Games/Heroic
+mkdir -p $HOME/Prefixes
+chown $UNAME:$UNAME $HOME/Prefixes
+[ ! -L $HOME/Games/Heroic/Prefixes ] && ln -s $HOME/Prefixes $HOME/Games/Heroic/
+
 echo ">> Starting dbus"
 service dbus start &> /logs/dbus.log
 
-if [ -f /custom-script ]; then
-    echo ">> Running custom script: /custom-script"
-    chmod +x /custom-script
-    /custom-script || echo "Custom script exited with error $?"
+if [ -d /custom-scripts ]; then
+    echo ">> Running custom scripts in: /custom-scripts"
+
+    for script in /custom-scripts/*; do
+        if [ -f "$script" ]; then
+            echo ">> Running script: $script"
+            chmod +x "$script"
+            "$script" || echo "Script $script exited with error $?"
+        fi
+    done
 fi
 
 exec gosu "${UNAME}" bash -c '
@@ -62,7 +77,7 @@ exec gosu "${UNAME}" bash -c '
     echo ">> Nothing to do."
   fi
 
-  echo ">> Start mangohud"
+  echo ">> Setup mangohud"
   export MANGOHUD=${MANGOHUD:-1}
 
   gsettings set org.gnome.desktop.interface scaling-factor 1
@@ -71,10 +86,8 @@ exec gosu "${UNAME}" bash -c '
   export DISPLAY=:10
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
-  #echo "xwayland disable" >> $HOME/.config/sway/config
-  echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT} position 0,0" >> $HOME/.config/sway/config
-  echo "workspace main;" >> $HOME/.config/sway/config
-  echo "exec Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
+  echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
+  echo "exec  Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)
 
   echo ">> Setting up flatpak"
