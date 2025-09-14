@@ -47,7 +47,7 @@ title = 'Zorin'
 '''
     devices = []
     env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:beta'
+    image = 'gailoks/gow-zorin:latest'
     mounts = [ ]
     name = 'WolfZorin'
     ports = []
@@ -59,7 +59,7 @@ title = 'Zorin'
 To build the Docker image, use the following command:
 
 ```
-docker build -t gailoks/gow-zorin:beta .
+docker build -t gailoks/gow-zorin:latest .
 ```
 
 ## Customization
@@ -90,7 +90,7 @@ For custom scripts:
 '/host/path/custom-scripts:/custom-scripts:ro'
 ```
 
-Note: These are executed *before* the desktop environment starts.  If you need more detailed information, refer to [this](https://github.com/Gailoks/gow-zorin/blob/beta/entrypoint.sh).
+Note: These are executed *before* the desktop environment starts.  If you need more detailed information, refer to [this](https://github.com/Gailoks/gow-zorin/blob/latest/entrypoint.sh).
 
 ### Custom environment variables
 
@@ -173,7 +173,7 @@ title = 'Zorin'
 '''
     devices = []
     env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:beta'
+    image = 'gailoks/gow-zorin:latest'
     mounts = [ ]
     name = 'WolfZorin'
     ports = []
@@ -185,7 +185,7 @@ title = 'Zorin'
 Чтобы собрать образ Docker, используйте следующую команду:
 
 ```
-docker build -t gailoks/gow-zorin:beta .
+docker build -t gailoks/gow-zorin:latest .
 ```
 
 ## Настройка
@@ -218,7 +218,7 @@ docker build -t gailoks/gow-zorin:beta .
 '/host/path/custom-scripts:/custom-scripts:ro'
 ```
 
-Обратите внимание: Они выполняются *до* запуска среды рабочего стола. Если вам нужна более подробная информация, обратитесь к [этому](https://github.com/Gailoks/gow-zorin/blob/beta/entrypoint.sh).
+Обратите внимание: Они выполняются *до* запуска среды рабочего стола. Если вам нужна более подробная информация, обратитесь к [этому](https://github.com/Gailoks/gow-zorin/blob/latest/entrypoint.sh).
 
 ### Пользовательские переменные окружения
 
