@@ -1,29 +1,5 @@
 #!/bin/bash -e
 
-
-cat > /usr/local/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json <<EOL
-{
-  "file_format_version": "1.0.0",
-  "layer": {
-    "name": "VK_LAYER_LS_frame_generation",
-    "type": "GLOBAL",
-    "api_version": "1.4.313",
-    "library_path": "/usr/local/lib/liblsfg-vk.so",
-    "implementation_version": "1",
-    "description": "Lossless Scaling frame generation layer",
-    "functions": {
-      "vkGetInstanceProcAddr": "layer_vkGetInstanceProcAddr",
-      "vkGetDeviceProcAddr": "layer_vkGetDeviceProcAddr"
-    },
-    "disable_environment": {
-      "DISABLE_LSFG": "1"
-    }
-  }
-}
-EOL
-
-
-
 if [ ! -f "$HOME/.config/MangoHud/MangoHud.conf" ]; then
   # Create the directory if it doesn's exist
   mkdir -p "$HOME/.config/MangoHud"

@@ -1,4 +1,4 @@
-FROM ubuntu:24.10 AS bwrap-builder
+FROM ubuntu:22.04 AS bwrap-builder
 
 ENV DEBIAN_FRONTEND=non-interactive
 WORKDIR /root
@@ -26,7 +26,6 @@ mkdir -p /packages
 wget -O /packages/gosu https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64
 wget -O /packages/MangoHud.tar.gz https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
 wget -O /packages/heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.18.1/Heroic-2.18.1-linux-amd64.deb
-wget -O /packages/lsfg-vk.zip https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0-x86_64.zip # Optinal if you like frame gen and have lossless scaling availible
 
 _INSTALL_PACKAGES
 
@@ -47,15 +46,8 @@ ENV \
     LC_ALL=ru_RU.UTF-8 \
     XDG_RUNTIME_DIR=/tmp/.X11-unix
 
-COPY --from=loader /packages .
-COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
-
-RUN <<_INSTALL_PACKAGES
-set -e
-
-# Get gosu
-mv gosu /usr/bin/gosu
-chmod +x /usr/bin/gosu
+RUN <<_MAIN_INSTALL
+#!/bin/bash -e
 
 # Add repositories
 dpkg --add-architecture i386
@@ -123,34 +115,35 @@ apt install -y --no-install-recommends \
     gnome-software gnome-software-plugin-flatpak \
     sway zorin-os-desktop zorin-appearance 
 
+# Apt cleanup
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+_MAIN_INSTALL
 
+COPY --from=loader /packages .
+RUN <<_INSTALL_EXTRA
+#!/bin/bash -e
 echo exit 0 > /usr/sbin/policy-rc.d
 
-#Get lsfg-vk
-#wget -O lsfg-vk.deb https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0.x86_64.deb
-unzip lsfg-vk.zip -d /usr/local
-chmod +x /usr/local/bin/lsfg-vk-ui
-rm lsfg-vk.zip
 
-# Get heroic game launcher
-#wget -O heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.18.1/Heroic-2.18.1-linux-amd64.deb
+# Get gosu
+mv gosu /usr/bin/gosu
+chmod +x /usr/bin/gosu
+
+# Get heroic
 dpkg -i heroic.deb
 rm heroic.deb
 
 # Get MangoHud
-#wget -O MangoHud.tar.gz https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
 tar xf MangoHud.tar.gz
 cd MangoHud
 tar xf MangoHud-package.tar
 chmod +x ./mangohud-setup.sh && ./mangohud-setup.sh install
+cd ..
 rm -rf /MangoHud
 rm /MangoHud.tar.gz
 
-#wget --progress=dot:giga \
-#    -O /usr/bin/gosu \
-#    "https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64"
-
-# Cleanup
+# Apt cleanup
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
@@ -160,9 +153,10 @@ locale-gen ru_RU.UTF-8
 update-locale LANG=ru_RU.UTF-8
 
 for file in $(find /usr -type f -iname "*login1*"); do mv -v $file "$file.back"; done
-chmod u+s /usr/bin/bwrap
+_INSTALL_EXTRA
 
-_INSTALL_PACKAGES
+COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
+RUN chmod u+s /usr/bin/bwrap
 
 WORKDIR /
 
