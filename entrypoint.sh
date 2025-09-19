@@ -19,7 +19,10 @@ mkdir -p -m 1777 /tmp/.X11-unix
 chown root:root /tmp/.X11-unix
 chmod 1777 /tmp/.X11-unix
 
-echo ">> Create Prfixes directory"
+echo ">> Setting mode 4755 for /opt/Heroic/chrome-sandbox"
+chmod 4755 /opt/Heroic/chrome-sandbox
+
+echo ">> Create Prefixes directory"
 mkdir -p $HOME/Games/Heroic
 mkdir -p $HOME/Prefixes
 chown $UNAME:$UNAME $HOME/Prefixes
@@ -61,6 +64,7 @@ exec gosu "${UNAME}" bash -c '
   export QT_QPA_PLATFORM="xcb"
   export QT_AUTO_SCREEN_SCALE_FACTOR=1
   export QT_ENABLE_HIGHDPI_SCALING=1
+  export DXVK_FRAME_RATE="$GAMESCOPE_REFRESH"
 
   ORIGINAL_PATH="$HOME/.config/dconf/user"
   BACKUP_PATH="$HOME/.config/dconf/user.bak"
@@ -87,7 +91,7 @@ exec gosu "${UNAME}" bash -c '
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
   echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
-  echo "exec  Xwayland :10 -fakescreenfps 180 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
+  echo "exec  Xwayland :10 -fakescreenfps ${GAMESCOPE_REFRESH} & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)
 
   echo ">> Setting up flatpak"
