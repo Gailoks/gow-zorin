@@ -35,4 +35,4 @@ jobs:
           file: ./Dockerfile
           push: ${{ github.event_name == 'push' }} # push only on branch push, not PR
           platforms: linux/amd64
-          tags: ghcr.io/${{ github.repository_owner,, }}/gow-zorin:latest
+          tags: ghcr.io/${{ toLower(github.repository_owner) }}/gow-zorin:latest
