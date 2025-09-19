@@ -37,8 +37,7 @@ if [ -d /custom-scripts ]; then
     for script in /custom-scripts/*; do
         if [ -f "$script" ]; then
             echo ">> Running script: $script"
-            chmod +x "$script"
-            "$script" || echo "Script $script exited with error $?"
+            bash "$script" || echo "Script $script exited with error $?"
         fi
     done
 fi
@@ -91,7 +90,7 @@ exec gosu "${UNAME}" bash -c '
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
   echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
-  echo "exec  Xwayland :10 -fakescreenfps $(($GAMESCOPE_REFRESH * 2)) & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
+  echo "exec  Xwayland :10 -fakescreenfps 600 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)
 
   echo ">> Setting up flatpak"

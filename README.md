@@ -62,6 +62,12 @@ To build the Docker image, use the following command:
 docker build -t gailoks/gow-zorin:latest .
 ```
 
+or with Podman 
+
+```
+podman build -t gailoks/gow-zorin:latest .
+```
+
 ## Customization
 
 ### Mounts
@@ -121,7 +127,7 @@ Note: These are executed *before* the desktop environment starts.  If you need m
 *   **Custom Script Errors:** Check the `/logs` directory for errors when running a custom script.
 *   **Proton Compatibility:** Requires Proton versions 9 or below for proper functionality.
 *   **Configuration Reset:** Deleting `.config/dconf/user.bak` will allow you to save new desktop settings (theme, wallpaper, etc.).
-
+*	**Displayed screen refresh rate** gnome says that the display is 60Hz no matter how you change your fps in moonlight. It is just a number(I don't know how to edit it).
 ---
 
 # gow-zorin: Zorin OS для Гейминга - Полное Руководство
@@ -188,6 +194,12 @@ title = 'Zorin'
 docker build -t gailoks/gow-zorin:latest .
 ```
 
+Или через Podman
+
+```
+podman build -t gailoks/gow-zorin:latest .
+```
+
 ## Настройка
 
 Этот раздел содержит информацию о настройке для развертывания среды gow-zorin.
@@ -249,3 +261,4 @@ docker build -t gailoks/gow-zorin:latest .
 *   **Ошибки пользовательских скриптов:** Проверьте каталог `/logs` на наличие ошибок при выполнении пользовательского скрипта.
 *   **Совместимость Proton:** Для корректной работы требуются версии Proton 9 или ниже.
 *   **Сброс конфигурации:** Удаление `.config/dconf/user.bak` позволит сохранить новые настройки рабочего стола (тему, обои и т.д.).
+*	**Отображаемая частота кадров:** Настройки gnome не зависимо от настройки moonlight всегда отображают 60 кадров. Это всего лишь число(Я не нашел где его можно изменить).
