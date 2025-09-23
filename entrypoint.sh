@@ -48,14 +48,14 @@ exec gosu "${UNAME}" bash -c '
 
   export XDG_DATA_DIRS=/var/lib/flatpak/exports/share:/home/$UNAME/.local/share/flatpak/exports/share:/usr/local/share/:/usr/share/
 
-  # environement variables to ensure apps integrate well with our wm or de, https://wiki.archlinux.org/title/Xdg-utils#Environment_variables
+  # environment variables to ensure apps integrate well with our wm or de, https://wiki.archlinux.org/title/Xdg-utils#Environment_variables
   export XDG_CURRENT_DESKTOP=zorin:GNOME
   export DE=zorin
   export DESKTOP_SESSION=zorin
   export GNOME_SHELL_SESSION_MODE="zorin"
   export XDG_SESSION_TYPE=x11
 
-  # Various envs to help with apps compability
+  # Various envs to help with apps compatibility
   export XDG_SESSION_CLASS="user"
   export _JAVA_AWT_WM_NONREPARENTING=1
   export GDK_BACKEND=x11
@@ -63,7 +63,7 @@ exec gosu "${UNAME}" bash -c '
   export QT_QPA_PLATFORM="xcb"
   export QT_AUTO_SCREEN_SCALE_FACTOR=1
   export QT_ENABLE_HIGHDPI_SCALING=1
-  export DXVK_FRAME_RATE="$GAMESCOPE_REFRESH"
+  export DXVK_FRAME_RATE=$(($GAMESCOPE_REFRESH + 2))
 
   ORIGINAL_PATH="$HOME/.config/dconf/user"
   BACKUP_PATH="$HOME/.config/dconf/user.bak"
