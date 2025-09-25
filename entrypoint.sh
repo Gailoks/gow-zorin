@@ -95,6 +95,8 @@ exec gosu "${UNAME}" bash -c '
 
   echo ">> Setting up flatpak"
   flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo &> /logs/flatpak.log
+  flatpak override --user --filesystem=$HOME/.themes &> /logs/flatpak.log
+  flatpak override --user --filesystem=$HOME/.icons &> /logs/flatpak.log
   flatpak override --user --nosocket=wayland &>> /logs/flatpak.log
   echo ">> Starting $DE"
   dbus-run-session -- sway --unsupported-gpu
