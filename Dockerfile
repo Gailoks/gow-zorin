@@ -30,7 +30,7 @@ wget -O /packages/heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGame
 _INSTALL_PACKAGES
 
 ######################################
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ENV \
     PUID=1000 \
