@@ -47,7 +47,7 @@ title = 'Zorin'
 '''
     devices = []
     env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:latest'
+    image = 'gailoks/gow-zorin:zorin-18'
     mounts = [ ]
     name = 'WolfZorin'
     ports = []
@@ -59,13 +59,13 @@ title = 'Zorin'
 To build the Docker image, use the following command:
 
 ```
-docker build -t gailoks/gow-zorin:latest .
+docker build -t gailoks/gow-zorin:zorin-18 .
 ```
 
 or with Podman 
 
 ```
-podman build -t gailoks/gow-zorin:latest .
+podman build -t gailoks/gow-zorin:zorin-18 .
 ```
 
 ## Customization
@@ -96,7 +96,7 @@ For custom scripts:
 '/host/path/custom-scripts:/custom-scripts:ro'
 ```
 
-Note: These are executed *before* the desktop environment starts.  If you need more detailed information, refer to [this](https://github.com/Gailoks/gow-zorin/blob/latest/entrypoint.sh).
+Note: These are executed *before* the desktop environment starts.  If you need more detailed information, refer to [this](https://github.com/Gailoks/gow-zorin/blob/zorin-18/entrypoint.sh).
 
 ### Custom environment variables
 
@@ -179,7 +179,7 @@ title = 'Zorin'
 '''
     devices = []
     env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:latest'
+    image = 'gailoks/gow-zorin:zorin-18'
     mounts = [ ]
     name = 'WolfZorin'
     ports = []
@@ -191,13 +191,13 @@ title = 'Zorin'
 Чтобы собрать образ Docker, используйте следующую команду:
 
 ```
-docker build -t gailoks/gow-zorin:latest .
+docker build -t gailoks/gow-zorin:zorin-18 .
 ```
 
 Или через Podman
 
 ```
-podman build -t gailoks/gow-zorin:latest .
+podman build -t gailoks/gow-zorin:zorin-18 .
 ```
 
 ## Настройка
@@ -230,7 +230,7 @@ podman build -t gailoks/gow-zorin:latest .
 '/host/path/custom-scripts:/custom-scripts:ro'
 ```
 
-Обратите внимание: Они выполняются *до* запуска среды рабочего стола. Если вам нужна более подробная информация, обратитесь к [этому](https://github.com/Gailoks/gow-zorin/blob/latest/entrypoint.sh).
+Обратите внимание: Они выполняются *до* запуска среды рабочего стола. Если вам нужна более подробная информация, обратитесь к [этому](https://github.com/Gailoks/gow-zorin/blob/zorin-18/entrypoint.sh).
 
 ### Пользовательские переменные окружения
 

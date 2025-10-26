@@ -23,9 +23,10 @@ apt-get update -y
 apt-get install -y --no-install-recommends wget ca-certificates
 
 mkdir -p /packages
-wget -O /packages/gosu https://github.com/tianon/gosu/releases/download/1.17/gosu-amd64
+wget -O /packages/gosu https://github.com/tianon/gosu/releases/download/1.19/gosu-amd64
 wget -O /packages/MangoHud.tar.gz https://github.com/flightlessmango/MangoHud/releases/download/v0.8.1/MangoHud-0.8.1.r0.gfea4292.tar.gz
 wget -O /packages/heroic.deb https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.18.1/Heroic-2.18.1-linux-amd64.deb
+wget -O /packages/lsfg-vk.zip https://github.com/PancakeTAS/lsfg-vk/releases/download/v1.0.0/lsfg-vk-1.0.0-x86_64.zip # Optinal if you like frame gen and have lossless scaling availible
 
 _INSTALL_PACKAGES
 
@@ -142,6 +143,14 @@ chmod +x ./mangohud-setup.sh && ./mangohud-setup.sh install
 cd ..
 rm -rf /MangoHud
 rm /MangoHud.tar.gz
+
+
+
+
+#Get lsfg-vk
+unzip lsfg-vk.zip -d /usr/local
+chmod +x /usr/local/bin/lsfg-vk-ui
+rm lsfg-vk.zip
 
 # Apt cleanup
 apt-get clean
