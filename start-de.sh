@@ -1,10 +1,26 @@
+#!/bin/bash
+set -euo pipefail
 
-COUNT=0
-while [ $COUNT -lt 20 ]; do
-  if env DISPLAY=:9 xrandr --output XWAYLAND0 --mode "${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}" >/dev/null 2>&1; then
-    exit 0
-  fi
-  COUNT=$((COUNT+1))
-  sleep 1
+MAX_RETRIES="${MAX_RETRIES:-20}"
+SLEEP_TIME="${SLEEP_TIME:-1}"
+
+echo ">> start-de.sh: Waiting for {} mode..."
+
+for ((i=1; i<=MAX_RETRIES; i++)); do
+    if env DISPLAY=:10 xrandr --output XWAYLAND0 \
+        --mode "${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}" >/dev/null 2>&1; then
+        echo ">> start-de.sh: Mode set successfully"
+        break
+    fi
+    sleep "$SLEEP_TIME"
 done
-exit 1
+
+if [ "$i" -gt "$MAX_RETRIES" ]; then
+    echo "start-de.sh: Failed to set mode after $MAX_RETRIES attempts" >&2
+    exit 1
+fi
+
+echo ">> start-de.sh: Launching GNOME session"
+unset WAYLAND_DISPLAY
+export DISPLAY=:10
+exec gnome-session
