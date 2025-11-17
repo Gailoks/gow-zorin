@@ -170,5 +170,6 @@ COPY --chmod=700 setup-user.sh .
 COPY --chmod=700 setup-devices.sh .
 COPY --chmod=700 setup-nvidia.sh .
 COPY --chmod=700 setup-config.sh .
+COPY --chmod=700 start-de.sh .
 
 ENTRYPOINT ["/entrypoint.sh"]
