@@ -48,7 +48,7 @@ exec gosu "${UNAME}" bash -c '
 
   export XDG_DATA_DIRS=/var/lib/flatpak/exports/share:/home/$UNAME/.local/share/flatpak/exports/share:/usr/local/share/:/usr/share/
 
-  # environment variables to ensure apps integrate well with our wm or de, https://wiki.archlinux.org/title/Xdg-utils#Environment_variables
+  # environement variables to ensure apps integrate well with our wm or de, https://wiki.archlinux.org/title/Xdg-utils#Environment_variables
   export XDG_CURRENT_DESKTOP=zorin:GNOME
   export DE=zorin
   export DESKTOP_SESSION=zorin
@@ -90,7 +90,7 @@ exec gosu "${UNAME}" bash -c '
   mkdir -p $HOME/.config/sway
   echo "default_border none" > $HOME/.config/sway/config
   echo "output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT}@${GAMESCOPE_REFRESH}Hz position 0,0" >> $HOME/.config/sway/config
-  echo "exec  Xwayland :10 -fakescreenfps 600 & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
+  echo "exec  Xwayland :10 -fakescreenfps 600 & /start-de.sh &  unset WAYLAND_DISPLAY & DISPLAY=:10 /usr/bin/gnome-session" >> $HOME/.config/sway/config
   export $(dbus-launch)
 
   echo ">> Setting up flatpak"

@@ -63,7 +63,6 @@ add-apt-repository universe
 apt update
 apt-get install -y zorin-os-keyring
 
-
 # Core deps
 apt install -y --no-install-recommends \
     xwayland \
@@ -126,7 +125,6 @@ RUN <<_INSTALL_EXTRA
 #!/bin/bash -e
 echo exit 0 > /usr/sbin/policy-rc.d
 
-
 # Get gosu
 mv gosu /usr/bin/gosu
 chmod +x /usr/bin/gosu
@@ -143,9 +141,6 @@ chmod +x ./mangohud-setup.sh && ./mangohud-setup.sh install
 cd ..
 rm -rf /MangoHud
 rm /MangoHud.tar.gz
-
-
-
 
 #Get lsfg-vk
 unzip lsfg-vk.zip -d /usr/local
