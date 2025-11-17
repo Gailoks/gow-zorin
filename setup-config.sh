@@ -60,3 +60,66 @@ EOL
   chmod 600 "$HOME/.config/MangoHud/MangoHud.conf"  #optional - read/write only by user
   echo ">> MangoHud.conf created at $HOME/.config/MangoHud/ and owned by $UNAME:$UNAME"
 fi
+
+
+
+
+
+cat > /usr/local/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json <<EOL
+
+
+{
+
+
+  "file_format_version": "1.0.0",
+
+
+  "layer": {
+
+
+    "name": "VK_LAYER_LS_frame_generation",
+
+
+    "type": "GLOBAL",
+
+
+    "api_version": "1.4.313",
+
+
+    "library_path": "/usr/local/lib/liblsfg-vk.so",
+
+
+    "implementation_version": "1",
+
+
+    "description": "Lossless Scaling frame generation layer",
+
+
+    "functions": {
+
+
+      "vkGetInstanceProcAddr": "layer_vkGetInstanceProcAddr",
+
+
+      "vkGetDeviceProcAddr": "layer_vkGetDeviceProcAddr"
+
+
+    },
+
+
+    "disable_environment": {
+
+
+      "DISABLE_LSFG": "1"
+
+
+    }
+
+
+  }
+
+
+}
+
+
+EOL
