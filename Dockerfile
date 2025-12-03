@@ -162,7 +162,7 @@ _INSTALL_EXTRA
 COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
 RUN chmod u+s /usr/bin/bwrap
 
-WORKDIR /startup
+WORKDIR /
 
 COPY --chmod=755 startup startup
 
