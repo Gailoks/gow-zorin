@@ -14,7 +14,7 @@ echo ">> Running provisioning scripts"
 /startup/setup-nvidia.sh
 /startup/setup-config.sh
 
-chown "$UNAME:$UNAME" -R /tmp/sockets /home/"$UNAME"
+chown "$UNAME:$UNAME" -R /tmp/sockets 
 
 echo ">> Setup chrome sandbox permissions"
 chmod 4755 /opt/Heroic/chrome-sandbox
@@ -23,6 +23,11 @@ echo ">> Setup Heroic prefixes"
 mkdir -p "$HOME/Games/Heroic" "$HOME/Prefixes"
 chown "$UNAME:$UNAME" "$HOME/Prefixes"
 ln -sf "$HOME/Prefixes" "$HOME/Games/Heroic/Prefixes"
+
+echo ">> Create autostart directory"
+mkdir -p "$HOME/.config/autostart"
+cp /startup/set-resolution.desktop "$HOME/.config/autostart/set-resolution.desktop"
+chmod 777 "$HOME/.config/autostart/set-resolution.desktop"
 
 echo ">> Starting dbus daemon"
 service dbus start &> /logs/dbus.log

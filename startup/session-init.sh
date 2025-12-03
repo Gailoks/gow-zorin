@@ -28,15 +28,8 @@ BACK="$HOME/.config/dconf/user.bak"
 if [ -f "$ORIG" ]; then
     [ -f "$BACK" ] && cp "$BACK" "$ORIG" || cp "$ORIG" "$BACK"
 else
-    echo "No dconf settings found."
+    echo ">> No dconf settings found."
 fi
-
-echo ">> Applying GNOME scaling settings"
-gsettings set org.gnome.desktop.interface scaling-factor 1
-gsettings set org.gnome.desktop.interface text-scaling-factor 1
-gsettings set org.gnome.desktop.session idle-delay 0
-
-
 
 echo ">> Configuring sway + Xwayland"
 export DISPLAY=:10
@@ -56,5 +49,5 @@ flatpak override --user --filesystem="$HOME/.themes" &>> /logs/flatpak.log
 flatpak override --user --filesystem="$HOME/.icons" &>> /logs/flatpak.log
 flatpak override --user --nosocket=wayland &>> /logs/flatpak.log
 
-echo ">> Starting desktop environment"
+echo ">> Starting sway"
 exec dbus-run-session sway --unsupported-gpu
