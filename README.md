@@ -28,30 +28,38 @@ gow-zorin provides a fully functional Zorin OS environment with pre-installed to
 
 This section contains information about the configuration required to deploy the gow-zorin environment. The main configuration is presented in `config.toml` format below. **Carefully review each setting to ensure compatibility with your system and desired configuration.**
 
+**Example config**
 ```toml
-[[apps]]
+[[profiles]]
+id = 'moonlight-profile-id'
+
+
+[[profiles.apps]]
 icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
 start_virtual_compositor = true
 title = 'Zorin'
-    [apps.runner]
-    base_create_json = '''{
-  "HostConfig": {
-    "IpcMode": "host",
-    "CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
-    "SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
-    "Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
-    "Privileged": false,
-    "DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
-  }
+
+
+[profiles.apps.runner]
+base_create_json = '''{
+"HostConfig": {
+"IpcMode": "host",
+"CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
+"SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
+"Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
+"Privileged": false,
+"DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
 }
-'''
-    devices = []
-    env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:latest'
-    mounts = [ ]
-    name = 'WolfZorin'
-    ports = []
-    type = 'docker'
+}'''
+
+
+devices = []
+env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
+image = 'gailoks/gow-zorin:zorin-18'
+mounts = ['/games/steam/:/home/retro/.steam/debian-installation/steamapps:rw','/games/heroic:/home/retro/Games/Heroic:rw' ]
+name = 'WolfZorin'
+ports = []
+type = 'docker'
 ```
 
 ## Build
@@ -112,7 +120,6 @@ Note: These are executed *before* the desktop environment starts.  If you need m
 
 ## Cons
 
-*   **Slow Startup:** Any launch will take longer than launching a lighter desktop environment.
 *   **Resource Intensity:** Zorin OS, although lightweight in its own right, requires reasonable system resources.
 
 ## Troubleshooting
@@ -154,30 +161,38 @@ gow-zorin предоставляет полностью функциональн
 
 Этот раздел содержит информацию о необходимой конфигурации для развертывания среды gow-zorin.  Основная конфигурация представлена в формате `config.toml` ниже.  **Внимательно изучите каждую настройку, чтобы обеспечить совместимость с вашей системой и желаемой конфигурацией.**
 
+**Пример конфигурации**
 ```toml
-[[apps]]
+[[profiles]]
+id = 'moonlight-profile-id'
+
+
+[[profiles.apps]]
 icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
 start_virtual_compositor = true
 title = 'Zorin'
-    [apps.runner]
-    base_create_json = '''{
-  "HostConfig": {
-    "IpcMode": "host",
-    "CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
-    "SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
-    "Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
-    "Privileged": false,
-    "DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
-  }
+
+
+[profiles.apps.runner]
+base_create_json = '''{
+"HostConfig": {
+"IpcMode": "host",
+"CapAdd": ["SYS_ADMIN", "SYS_NICE", "SYS_PTRACE", "NET_RAW", "MKNOD", "NET_ADMIN"],
+"SecurityOpt": ["seccomp=unconfined", "apparmor=unconfined"],
+"Ulimits": [{"Name":"nofile", "Hard":524288, "Soft":10240}],
+"Privileged": false,
+"DeviceCgroupRules": ["c 13:* rmw", "c 244:* rmw"]
 }
-'''
-    devices = []
-    env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
-    image = 'gailoks/gow-zorin:latest'
-    mounts = [ ]
-    name = 'WolfZorin'
-    ports = []
-    type = 'docker'
+}'''
+
+
+devices = []
+env = [ 'LC_ALL=ru_RU.UTF-8', 'GOW_REQUIRED_DEVICES=/dev/input/* /dev/dri/* /dev/nvidia*', 'XKB_DEFAULT_LAYOUT=us,ru' ]
+image = 'gailoks/gow-zorin:zorin-18'
+mounts = ['/games/steam/:/home/retro/.steam/debian-installation/steamapps:rw','/games/heroic:/home/retro/Games/Heroic:rw' ]
+name = 'WolfZorin'
+ports = []
+type = 'docker'
 ```
 
 ## Сборка
@@ -239,7 +254,6 @@ docker build -t gailoks/gow-zorin:latest .
 
 ## Минусы
 
-*   **Медленный запуск:** Любой запуск будет занимать больше времени, чем запуск более легковесной среды рабочего стола.
 *   **Интенсивность ресурсов:** Zorin OS, хотя и легкая в своем роде, требует разумных системных ресурсов.
 
 ## Устранение неполадок
