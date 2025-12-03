@@ -9,10 +9,10 @@ chmod +t /tmp/sockets
 chmod 1777 /tmp/.X11-unix
 
 echo ">> Running provisioning scripts"
-/setup-user.sh
-/setup-devices.sh
-/setup-nvidia.sh
-/setup-config.sh
+/startup/setup-user.sh
+/startup/setup-devices.sh
+/startup/setup-nvidia.sh
+/startup/setup-config.sh
 
 chown "$UNAME:$UNAME" -R /tmp/sockets /home/"$UNAME"
 
@@ -38,4 +38,4 @@ fi
 # ---- START USER SESSION ----
 
 echo ">> Preparing user session"
-exec gosu "$UNAME" /session-init.sh
+exec gosu "$UNAME" /startup/session-init.sh

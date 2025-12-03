@@ -45,7 +45,7 @@ mkdir -p "$HOME/.config/sway"
 cat > "$HOME/.config/sway/config" <<EOF
 default_border none
 output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT} position 0,0
-exec Xwayland :10 -fakescreenfps 600 & /start-de.sh
+exec Xwayland :10 -fakescreenfps 600 & /startup/start-de.sh
 EOF
 
 export $(dbus-launch)

@@ -2,7 +2,7 @@ FROM ubuntu:22.04 AS bwrap-builder
 
 ENV DEBIAN_FRONTEND=non-interactive
 WORKDIR /root
-COPY ignore_capabilities.patch /root/
+COPY startup/ignore_capabilities.patch /root/
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends git meson ca-certificates dpkg-dev && \
     git clone https://github.com/containers/bubblewrap && \
@@ -162,15 +162,9 @@ _INSTALL_EXTRA
 COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
 RUN chmod u+s /usr/bin/bwrap
 
-WORKDIR /
+WORKDIR /startup
 
-COPY entrypoint.sh .
-COPY --chmod=700 ensure-groups.sh .
-COPY --chmod=700 setup-user.sh .
-COPY --chmod=700 setup-devices.sh .
-COPY --chmod=700 setup-nvidia.sh .
-COPY --chmod=700 setup-config.sh .
-COPY --chmod=755 start-de.sh .
-COPY --chmod=755 session-init.sh .
+COPY --chmod=755 startup startup
 
-ENTRYPOINT ["/entrypoint.sh"]
+
+ENTRYPOINT ["/startup/entrypoint.sh"]
