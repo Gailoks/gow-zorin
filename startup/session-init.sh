@@ -9,13 +9,12 @@ export XDG_CURRENT_DESKTOP=zorin:GNOME
 export DE=zorin
 export DESKTOP_SESSION=zorin
 export GNOME_SHELL_SESSION_MODE=zorin
-export XDG_SESSION_TYPE=x11
+export XDG_SESSION_TYPE=wayland
 export XDG_SESSION_CLASS=user
 
-export _JAVA_AWT_WM_NONREPARENTING=1
-export GDK_BACKEND=x11
-export MOZ_ENABLE_WAYLAND=0
-export QT_QPA_PLATFORM=xcb
+export GDK_BACKEND=wayland
+export MOZ_ENABLE_WAYLAND=1
+export QT_QPA_PLATFORM=wayland
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
 export QT_ENABLE_HIGHDPI_SCALING=1
 export MANGOHUD="${MANGOHUD:-1}"
@@ -32,13 +31,12 @@ else
 fi
 
 echo ">> Configuring sway + Xwayland"
-export DISPLAY=:10
 mkdir -p "$HOME/.config/sway"
 
 cat > "$HOME/.config/sway/config" <<EOF
 default_border none
 output * resolution ${GAMESCOPE_WIDTH}x${GAMESCOPE_HEIGHT} position 0,0
-exec Xwayland :10 -fakescreenfps 600 & /startup/start-de.sh
+exec /startup/start-de.sh
 EOF
 
 export $(dbus-launch)
@@ -47,7 +45,7 @@ echo ">> Setting up flatpak"
 flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo &> /logs/flatpak.log
 flatpak override --user --filesystem="$HOME/.themes" &>> /logs/flatpak.log
 flatpak override --user --filesystem="$HOME/.icons" &>> /logs/flatpak.log
-flatpak override --user --nosocket=wayland &>> /logs/flatpak.log
+flatpak override --user --socket=wayland &>> /logs/flatpak.log
 
 echo ">> Starting sway"
 exec dbus-run-session sway --unsupported-gpu

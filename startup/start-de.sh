@@ -14,5 +14,4 @@ gsettings set org.gnome.desktop.session idle-delay 0
 
 
 echo ">> Launching GNOME session"
-unset WAYLAND_DISPLAY
 gnome-session
