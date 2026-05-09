@@ -1,6 +1,6 @@
-FROM ubuntu:22.04 AS bwrap-builder
+FROM ubuntu:24.04 AS bwrap-builder
 
-ENV DEBIAN_FRONTEND=non-interactive
+ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
 COPY startup/ignore_capabilities.patch /root/
 RUN apt-get update -y && \
@@ -14,7 +14,8 @@ RUN apt-get update -y && \
 
 ######################################
 
-FROM ubuntu:22.04 AS loader
+
+FROM ubuntu:24.04 AS loader
 ENV DEBIAN_FRONTEND=non-interactive
 RUN <<_INSTALL_PACKAGES
 #!/bin/bash -e
@@ -30,7 +31,6 @@ wget -O /packages/lsfg-vk.zip https://github.com/PancakeTAS/lsfg-vk/releases/dow
 
 _INSTALL_PACKAGES
 
-######################################
 FROM ubuntu:24.04
 
 ENV \
@@ -45,7 +45,7 @@ ENV \
     LANG=ru_RU.UTF-8 \
     LANGUAGE=ru_RU:en_US \
     LC_ALL=ru_RU.UTF-8 \
-    XDG_RUNTIME_DIR=/tmp/.X11-unix
+    XDG_RUNTIME_DIR=/run/user/1000
 
 RUN <<_MAIN_INSTALL
 #!/bin/bash -e
@@ -76,6 +76,7 @@ apt install -y --no-install-recommends \
     dbus-x11 \
     dbus-user-session \
     flatpak \
+    ibus \
     sudo \
     locales \
     xdg-utils \
@@ -105,25 +106,31 @@ apt install -y --no-install-recommends \
     gnome-software-plugin-flatpak \
     ca-certificates \
     xz-utils \
+    fuse3 \
     libgbm1 libgles2 libegl1 libgl1-mesa-dri \
     libnvidia-egl-wayland1 libnvidia-egl-gbm1 \
+    pipewire pipewire-pulse wireplumber \
+    xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-gtk \
     steam-installer dbus-daemon dbus-system-bus-common dbus-session-bus-common \
     libxext6 \
     libvulkan-dev \
     vulkan-tools \
     zip unzip p7zip-full \
     gnome-software gnome-software-plugin-flatpak \
-    sway zorin-os-desktop zorin-appearance 
+    sway swaybg zorin-os-desktop zorin-appearance 
 
 # Apt cleanup
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 _MAIN_INSTALL
 
-COPY --from=loader /packages .
+COPY --from=loader /packages /packages
 RUN <<_INSTALL_EXTRA
 #!/bin/bash -e
 echo exit 0 > /usr/sbin/policy-rc.d
+
+# Install packages
+cd /packages
 
 # Get gosu
 mv gosu /usr/bin/gosu
@@ -139,8 +146,8 @@ cd MangoHud
 tar xf MangoHud-package.tar
 chmod +x ./mangohud-setup.sh && ./mangohud-setup.sh install
 cd ..
-rm -rf /MangoHud
-rm /MangoHud.tar.gz
+rm -rf MangoHud
+rm MangoHud.tar.gz
 
 #Get lsfg-vk
 unzip lsfg-vk.zip -d /usr/local
@@ -150,13 +157,12 @@ rm lsfg-vk.zip
 # Apt cleanup
 apt-get clean
 rm -rf /var/lib/apt/lists/*
+rm -rf /packages
 
 # Locale
 locale-gen en_US.UTF-8
 locale-gen ru_RU.UTF-8
 update-locale LANG=ru_RU.UTF-8
-
-for file in $(find /usr -type f -iname "*login1*"); do mv -v $file "$file.back"; done
 _INSTALL_EXTRA
 
 COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap

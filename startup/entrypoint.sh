@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo ">> Preparing directories"
-mkdir -p /logs /tmp/sockets /var/run/dbus /tmp/.X11-unix
+mkdir -p /logs /tmp/sockets /var/run/dbus /tmp/.X11-unix /run/user
 chmod 777 -R /logs
 chmod 0700 -R /tmp/sockets
 chmod +t /tmp/sockets
@@ -13,6 +13,8 @@ echo ">> Running provisioning scripts"
 /startup/setup-devices.sh
 /startup/setup-nvidia.sh
 /startup/setup-config.sh
+
+install -d -m 0700 -o "$PUID" -g "$PGID" "/run/user/$PUID"
 
 chown "$UNAME:$UNAME" -R /tmp/sockets 
 
@@ -32,6 +34,11 @@ chmod 777 "$HOME/.config/autostart/set-resolution.desktop"
 echo ">> Starting dbus daemon"
 service dbus start &> /logs/dbus.log
 
+if [ -x /usr/lib/systemd/systemd-logind ]; then
+    echo ">> Starting logind daemon"
+    /usr/lib/systemd/systemd-logind &> /logs/logind.log &
+fi
+
 
 if [ -d /custom-scripts ]; then
     echo ">> Executing custom scripts"
@@ -43,4 +50,4 @@ fi
 # ---- START USER SESSION ----
 
 echo ">> Preparing user session"
-exec gosu "$UNAME" /startup/session-init.sh
+exec su -m "$UNAME" -s /bin/bash -c /startup/session-init.sh
