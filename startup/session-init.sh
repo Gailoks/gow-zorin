@@ -34,7 +34,7 @@ export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS="@im=ibus"
 export MANGOHUD="${MANGOHUD:-1}"
-export DXVK_FRAME_RATE=$((GAMESCOPE_REFRESH + 2))
+export DXVK_FRAME_RATE=${GAMESCOPE_REFRESH}
 
 echo ">> Restoring GNOME settings"
 ORIG="$HOME/.config/dconf/user"
