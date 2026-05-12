@@ -117,6 +117,8 @@ apt install -y --no-install-recommends \
     vulkan-tools \
     zip unzip p7zip-full \
     gnome-software gnome-software-plugin-flatpak \
+    gnome-terminal \
+    ibus-gtk3 ibus-gtk4 \
     sway swaybg zorin-os-desktop zorin-appearance 
 
 # Apt cleanup
@@ -166,7 +168,8 @@ update-locale LANG=ru_RU.UTF-8
 _INSTALL_EXTRA
 
 COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
-RUN chmod u+s /usr/bin/bwrap
+# Prefer the unprivileged bubblewrap path for Flatpak inside the container.
+RUN chmod 755 /usr/bin/bwrap
 
 WORKDIR /
 

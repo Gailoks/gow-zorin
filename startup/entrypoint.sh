@@ -22,14 +22,14 @@ echo ">> Setup chrome sandbox permissions"
 chmod 4755 /opt/Heroic/chrome-sandbox
 
 echo ">> Setup Heroic prefixes"
-mkdir -p "$HOME/Games/Heroic" "$HOME/Prefixes"
+mkdir -p "$HOME/Games/Heroic" "$HOME/Prefixes" 
 chown "$UNAME:$UNAME" "$HOME/Prefixes"
+chown "$UNAME:$UNAME" "$HOME/Games/Heroic"
 ln -sf "$HOME/Prefixes" "$HOME/Games/Heroic/Prefixes"
 
 echo ">> Create autostart directory"
 mkdir -p "$HOME/.config/autostart"
-cp /startup/set-resolution.desktop "$HOME/.config/autostart/set-resolution.desktop"
-chmod 777 "$HOME/.config/autostart/set-resolution.desktop"
+chown "$UNAME:$UNAME" "$HOME/.config/autostart"
 
 echo ">> Starting dbus daemon"
 service dbus start &> /logs/dbus.log
@@ -50,4 +50,4 @@ fi
 # ---- START USER SESSION ----
 
 echo ">> Preparing user session"
-exec su -m "$UNAME" -s /bin/bash -c /startup/session-init.sh
+exec gosu "$UNAME" /startup/session-init.sh

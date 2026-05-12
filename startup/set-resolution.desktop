@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Set XWAYLAND Resolution
-Exec=/startup/set-resolution.sh
-X-GNOME-Autostart-enabled=true

@@ -7,7 +7,7 @@ gsettings set org.gnome.desktop.interface text-scaling-factor 1
 gsettings set org.gnome.desktop.session idle-delay 0
 
 echo ">> Launching nested GNOME Shell"
-gnome-shell --nested --wayland-display="${GNOME_WAYLAND_DISPLAY:?}" &
+dbus-run-session gnome-shell --nested --wayland-display="${GNOME_WAYLAND_DISPLAY:?}" --wayland &
 GNOME_SHELL_PID=$!
 
 SOCKET_PATH="${XDG_RUNTIME_DIR}/${GNOME_WAYLAND_DISPLAY:?}"
