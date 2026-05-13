@@ -35,7 +35,7 @@ id = 'moonlight-profile-id'
 
 
 [[profiles.apps]]
-icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
+icon_png_path = 'https://github.com/selfhst/icons/tree/master/png/zorin-os-light.png'
 start_virtual_compositor = true
 title = 'Zorin'
 
@@ -168,7 +168,7 @@ id = 'moonlight-profile-id'
 
 
 [[profiles.apps]]
-icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
+icon_png_path = 'https://github.com/selfhst/icons/tree/master/png/zorin-os-light.png'
 start_virtual_compositor = true
 title = 'Zorin'
 
