@@ -1,4 +1,5 @@
 #!/bin/bash -e
+source /startup/tools.sh
 
 if [ ! -f "$HOME/.config/MangoHud/MangoHud.conf" ]; then
   # Create the directory if it doesn's exist
@@ -58,7 +59,7 @@ media_player_format={title};{artist};{album}
 EOL
   chown "$UNAME:$UNAME" "$HOME/.config/MangoHud/MangoHud.conf"
   chmod 600 "$HOME/.config/MangoHud/MangoHud.conf"  #optional - read/write only by user
-  echo ">> MangoHud.conf created at $HOME/.config/MangoHud/ and owned by $UNAME:$UNAME"
+  info ">> MangoHud.conf created at $HOME/.config/MangoHud/ and owned by $UNAME:$UNAME"
 fi
 
 

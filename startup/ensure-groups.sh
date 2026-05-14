@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source /startup/tools.sh
 
 set -e
 
@@ -27,14 +28,14 @@ for dev in "$@"; do
             chmod g+rw "$dev"
         fi
     else
-      echo ">> Path '$dev' is not present."
+      warn ">> Path '$dev' is not present."
     fi
 done
 
 groups=$(join_by "," "${!group_map[@]}")
 if [ "$groups" != "" ]; then
-    echo ">> Adding user '${UNAME}' to groups: $groups"
+    info ">> Adding user '${UNAME}' to groups: $groups"
     usermod -G "$groups" "${UNAME}"
 else
-    echo ">> Not modifying user groups ($groups)"
+    info ">> Not modifying user groups ($groups)"
 fi

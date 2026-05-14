@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
+source /startup/tools.sh
 
 set -e
 
-echo ">> Exec device groups"
+info ">> Exec device groups"
 # make sure we're in the right groups to use all the required devices
 # we're actually relying on word splitting for this call, so disable the
 # warning from shellcheck

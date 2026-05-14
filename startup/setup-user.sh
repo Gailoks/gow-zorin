@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+source /startup/tools.sh
+
 
 set -e
 
-echo ">> Creating user and group"
-echo ">> User uid=${PUID}(${UNAME}) gid=${PGID}(${UNAME})"
+info ">> Creating user and group"
+info ">> User uid=${PUID}(${UNAME}) gid=${PGID}(${UNAME})"
 
 if [[ "${UNAME}" != "root" ]]; then
     PUID="${PUID:-1000}"
@@ -14,7 +16,7 @@ if [[ "${UNAME}" != "root" ]]; then
         # need to delete the old user $PUID then change $UNAME's UID
         # default ubuntu image comes with user `ubuntu` and UID 1000
         oldname=$(id -nu "${PUID}")
-        userdel -r "${oldname}"
+        userdel -r "${oldname}" &> /logs/userdel.log
     fi
 
     groupadd -f -g "${PGID}" ${UNAME} &> /logs/groupadd.log
@@ -26,7 +28,7 @@ if [[ "${UNAME}" != "root" ]]; then
 
     chown -R "${PUID}:${PGID}" "${XDG_RUNTIME_DIR}"
 else
-    echo ">> Container running as root. Nothing to do."
+    warn ">> Container running as root. Nothing to do. Do not use it, potentially unsafe"
 fi
 
-echo ">> User created"
+info ">> User created"
