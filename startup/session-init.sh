@@ -65,3 +65,5 @@ exec swaybg -i /startup/zorin_logo.png -m fit -c "#FFFFFF"
 exec /startup/start-de.sh
 EOF
 
+info ">> Starting sway"
+exec sway --unsupported-gpu
