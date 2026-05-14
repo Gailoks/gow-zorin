@@ -35,7 +35,7 @@ id = 'moonlight-profile-id'
 
 
 [[profiles.apps]]
-icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
+icon_png_path = 'https://github.com/selfhst/icons/tree/master/png/zorin-os-light.png'
 start_virtual_compositor = true
 title = 'Zorin'
 
@@ -127,7 +127,8 @@ Note: These are executed *before* the desktop environment starts.  If you need m
 *   **Application Compatibility:** Some applications may require additional configuration or troubleshooting.
 *   **Log Errors:** Check the `/logs` directory for log files (dbus.log, xdg.log, flatpak.log) to identify errors.
 *   **Custom Script Errors:** Check the `/logs` directory for errors when running a custom script.
----
+*   **Configuration Reset:** Deleting `.config/dconf/user.bak` will allow you to save new desktop settings (theme, wallpaper, etc.).
+*	**Displayed screen refresh rate** Gnome says that the display is 60Hz no matter how you change your fps in moonlight. X11 is limiting factor Wayland allows to set it.
 
 # gow-zorin: Zorin OS для Гейминга - Полное Руководство
 
@@ -166,7 +167,7 @@ id = 'moonlight-profile-id'
 
 
 [[profiles.apps]]
-icon_png_path = 'https://www.svgrepo.com/show/354605/zorin-os.svg'
+icon_png_path = 'https://github.com/selfhst/icons/tree/master/png/zorin-os-light.png'
 start_virtual_compositor = true
 title = 'Zorin'
 
@@ -259,3 +260,5 @@ docker build -t gailoks/gow-zorin:latest .
 *   **Совместимость приложений:** Некоторые приложения могут потребовать дополнительной настройки или устранения неполадок.
 *   **Ошибки в журналах:** Проверьте каталог `/logs` на наличие файлов журналов (`dbus.log`, `xdg.log`, `flatpak.log`) для выявления ошибок.
 *   **Ошибки пользовательских скриптов:** Проверьте каталог `/logs` на наличие ошибок при выполнении пользовательского скрипта.
+*   **Сброс конфигурации:** Удаление `.config/dconf/user.bak` позволит сохранить новые настройки рабочего стола (тему, обои и т.д.).
+*	**Отображаемая частота кадров:** Настройки gnome не зависимо от настройки moonlight всегда отображают 60 кадров. X11 не позволяет задать в настройках в wayland все работало.

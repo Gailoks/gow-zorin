@@ -30,7 +30,9 @@ ln -sf "$HOME/Prefixes" "$HOME/Games/Heroic/Prefixes"
 
 info ">> Create autostart directory"
 mkdir -p "$HOME/.config/autostart"
-chown "$UNAME:$UNAME" "$HOME/.config/autostart"
+cp /startup/set-resolution.desktop "$HOME/.config/autostart/set-resolution.desktop"
+chmod 777 "$HOME/.config/autostart/set-resolution.desktop"
+chown "$UNAME:$UNAME" "$HOME/.config/autostart" -R
 
 info ">> Starting dbus daemon"
 dbus-daemon --system --address=unix:path=/run/dbus/system_bus_socket --fork &> /logs/dbus.log
@@ -52,5 +54,4 @@ fi
 # ---- START USER SESSION ----
 
 info ">> Preparing user session"
-exec su -s /bin/bash "$UNAME" -c /startup/session-init.sh
-#exec gosu "$UNAME" /startup/session-init.sh
+exec gosu "$UNAME" /startup/session-init.sh
