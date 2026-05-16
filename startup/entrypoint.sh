@@ -28,6 +28,7 @@ echo ">> Create autostart directory"
 mkdir -p "$HOME/.config/autostart"
 cp /startup/set-resolution.desktop "$HOME/.config/autostart/set-resolution.desktop"
 chmod 777 "$HOME/.config/autostart/set-resolution.desktop"
+chown -R "$UNAME:$UNAME" "$HOME/.config"
 
 echo ">> Starting dbus daemon"
 service dbus start &> /logs/dbus.log
