@@ -2,7 +2,8 @@
 set -euo pipefail
 
 echo ">> Updating XDG user dirs"
-xdg-user-dirs-update &> /logs/xdg.log
+mkdir -p "$HOME/.config"
+xdg-user-dirs-update --force &> /logs/xdg.log || { echo ">> XDG update failed, continuing..."; exit 1; }
 
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:/usr/local/share:/usr/share"
 export XDG_CURRENT_DESKTOP=zorin:GNOME
