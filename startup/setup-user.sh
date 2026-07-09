@@ -22,7 +22,7 @@ if [[ "${UNAME}" != "root" ]]; then
 
     umask "${UMASK}"
 
-    chown "${PUID}:${PGID}" "${HOME}"
+    find "${HOME}" -maxdepth 1 -exec chown "${PUID}":"${PGID}" {} +
 
     chown -R "${PUID}:${PGID}" "${XDG_RUNTIME_DIR}"
 else
