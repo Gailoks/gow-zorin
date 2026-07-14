@@ -4,8 +4,6 @@ set -euo pipefail
 echo ">> Preparing directories"
 mkdir -p /logs /tmp/sockets /var/run/dbus /tmp/.X11-unix
 chmod 777 -R /logs
-chmod 0700 -R /tmp/sockets
-chmod +t /tmp/sockets
 chmod 1777 /tmp/.X11-unix
 
 echo ">> Running provisioning scripts"
