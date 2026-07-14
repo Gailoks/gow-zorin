@@ -1,19 +1,3 @@
-FROM ubuntu:22.04 AS bwrap-builder
-
-ENV DEBIAN_FRONTEND=non-interactive
-WORKDIR /root
-COPY startup/ignore_capabilities.patch /root/
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends git meson ca-certificates dpkg-dev && \
-    git clone https://github.com/containers/bubblewrap && \
-    cd bubblewrap && \
-    ./ci/builddeps.sh && \
-    patch -p1 < ../ignore_capabilities.patch && \
-    meson _builddir && \
-    meson compile -C _builddir
-
-######################################
-
 FROM ubuntu:22.04 AS loader
 ENV DEBIAN_FRONTEND=non-interactive
 RUN <<_INSTALL_PACKAGES
@@ -159,7 +143,7 @@ update-locale LANG=ru_RU.UTF-8
 for file in $(find /usr -type f -iname "*login1*"); do mv -v $file "$file.back"; done
 _INSTALL_EXTRA
 
-COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
+#COPY --from=bwrap-builder --chmod=755 /root/bubblewrap/_builddir/bwrap /usr/bin/bwrap
 RUN chmod u+s /usr/bin/bwrap
 
 WORKDIR /
