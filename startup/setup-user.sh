@@ -25,6 +25,7 @@ if [[ "${UNAME}" != "root" ]]; then
     find "${HOME}" -maxdepth 1 -exec chown -h "${PUID}:${PGID}" {} + &> /logs/user-chown.log || true
 
     chown -R "${PUID}:${PGID}" "${XDG_RUNTIME_DIR}"
+    chmod -R 1777 "${XDG_RUNTIME_DIR}"
 else
     echo ">> Container running as root. Nothing to do."
 fi
