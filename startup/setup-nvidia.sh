@@ -7,6 +7,13 @@ set -e
 # Check if our custom volume is mounted
 if [ -d /usr/nvidia ]; then
   echo "Nvidia driver volume detected"
+
+  # The volume carries the EGL vendor library of the host driver
+  # (libEGL_nvidia.so.0), and the image has no copy of it: without this the
+  # loader does not find the vendor library, EGL falls back to Mesa and the
+  # compositor dies with "DRI2: failed to create screen".
+  echo "/usr/nvidia/lib" > /etc/ld.so.conf.d/nvidia.conf
+  echo "/usr/nvidia/lib32" >> /etc/ld.so.conf.d/nvidia.conf
   ldconfig
 
   if [ -d /usr/nvidia/share/vulkan/icd.d ]; then

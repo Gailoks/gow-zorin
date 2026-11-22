@@ -22,6 +22,16 @@ export QT_ENABLE_HIGHDPI_SCALING=1
 export MANGOHUD="${MANGOHUD:-1}"
 export DXVK_FRAME_RATE=$((GAMESCOPE_REFRESH + 2))
 
+# The proprietary driver is optional - the same image runs on AMD and Intel
+# GPUs. These variables point the loaders at the nvidia libraries, so they
+# are only right when the driver is really there. The vendor json is the
+# marker for it: setup-nvidia.sh copies it from the driver volume.
+if [ -e /usr/share/glvnd/egl_vendor.d/10_nvidia.json ]; then
+  export __GLX_VENDOR_LIBRARY_NAME=nvidia
+  export GBM_BACKEND=nvidia-drm
+  export WLR_NO_HARDWARE_CURSORS=1
+fi
+
 echo ">> Restoring GNOME settings"
 ORIG="$HOME/.config/dconf/user"
 BACK="$HOME/.config/dconf/user.bak"

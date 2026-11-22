@@ -28,6 +28,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Resolve the image namespace
+        id: img
+        # A pull request from a fork gets no repository secrets, so the
+        # namespace has to fall back to the repository owner.
+        run: echo "namespace=$(printf '%s' "${NAME:-${{ github.repository_owner }}}" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+        env:
+          NAME: ${{ secrets.NAME }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -35,4 +43,4 @@ jobs:
           file: ./Dockerfile
           push: ${{ github.event_name == 'push' }} # push only on branch push, not PR
           platforms: linux/amd64
-          tags: ghcr.io/${{ secrets.NAME }}/gow-zorin:latest
+          tags: ghcr.io/${{ steps.img.outputs.namespace }}/gow-zorin:latest
