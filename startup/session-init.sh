@@ -22,6 +22,11 @@ export QT_ENABLE_HIGHDPI_SCALING=1
 export MANGOHUD="${MANGOHUD:-1}"
 export DXVK_FRAME_RATE=$((GAMESCOPE_REFRESH + 2))
 
+# NVIDIA EGL configuration
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export GBM_BACKEND=nvidia-drm
+export WLR_NO_HARDWARE_CURSORS=1
+
 echo ">> Restoring GNOME settings"
 ORIG="$HOME/.config/dconf/user"
 BACK="$HOME/.config/dconf/user.bak"

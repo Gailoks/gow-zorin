@@ -27,7 +27,7 @@ for dev in "$@"; do
             chmod g+rw "$dev"
         fi
     else
-      echo ">> Path '$dev' is not present."
+        echo ">> Path '$dev' is not present."
     fi
 done
 
